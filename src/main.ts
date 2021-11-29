@@ -1,46 +1,27 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 //import * as cron from 'node-cron';
-import { fetchOffersList } from './parsers/stackoverflow';
-/**
- * Some predefined delay values (in milliseconds).
- */
-export enum Delays {
-  Short = 500,
-  Medium = 2000,
-  Long = 5000,
-}
+/* import { fetchOffersList } from './parsers/stackoverflow';
+import { delayedPromise } from './helpers/request';
+import { PROMISE_TIMEOUT } from './helpers/request'; */
+import * as db from './db';
 
-/**
- * Returns a Promise<string> that resolves after a given time.
- *
- * @param {string} name - A name.
- * @param {number=} [delay=Delays.Medium] - A number of milliseconds to delay resolution of the Promise.
- * @returns {Promise<string>}
- */
-function delayedHello(
-  name: string,
-  delay: number = Delays.Medium,
-): Promise<string> {
-  return new Promise((resolve: (value?: string) => void) =>
-    setTimeout(() => resolve(`Hello, ${name}`), delay),
+export const AVAILABLE_COUNTRIES = ['germany', 'france'];
+
+/* async function run() {
+  const requests = AVAILABLE_COUNTRIES.map((country, i) =>
+    delayedPromise(
+      () => fetchOffersList({ country, pages: 1 }),
+      PROMISE_TIMEOUT * (i + 1),
+    ),
   );
-}
 
-// Below are examples of using ESLint errors suppression
-// Here it is suppressing a missing return type definition for the greeter function.
+  const results = await Promise.all(requests);
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function greeter(name: string) {
-  return await delayedHello(name, Delays.Long);
-}
+  console.log('##offers', JSON.stringify(results));
+} */
 
-async function run() {
-  const offerList = await fetchOffersList('germany');
-
-  console.log('##offers', offerList);
-}
-
-run();
-
+//run();
+db.connectDb();
 /* cron.schedule('* * * * *', async function () {
   const jobs = await requestPage('germany');
 
